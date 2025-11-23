@@ -7,31 +7,33 @@ require('dotenv').config
 const adapter = new PrismaPg({
     connectionString: process.env.DATABASE_URL,
 })
-
 const prisma = new PrismaClient({ adapter })
 
-async function newUser() {
 
-    try {
-        const newUser = await prisma.user.create({
-            data: {
-                userId: 2,
-                username: 'ahmad',
-                password: 'kamal',
-                role: 'Reader'
-            }
-        })
-        return newUser;
-
-    } catch (err) {
-        console.log(err)
-        return null
-    }
+const getAllPosts = function () {
+    return prisma.post.findMany()
 }
 
+const getPostById = function (postId) {
+    return prisma.post.findUnique({
+        where: {
+            postId: postId
+        }
+    })
+}
+
+const getCommentsUnderPost = function (postId) {
+    return prisma.comment.findMany({
+        where: {
+            postId: postId
+        }
+    })
+}
 
 module.exports = {
-    newUser
+    getAllPosts,
+    getPostById,
+    getCommentsUnderPost
 }
 
 
