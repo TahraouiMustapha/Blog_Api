@@ -4,11 +4,17 @@ require('dotenv').config()
 
 const server = express()
 
+// configurations
+server.use(express.urlencoded({ extended: true }));
+server.use(express.json())
+
+
 // import routes
+const usersRouter = require('./routes/users.js')
 const postsRouter = require('./routes/posts')
 
-const { newUser } = require('./models/posts.js')
-
+// Sign up
+server.use('/api/users', usersRouter)
 server.use('/api/posts', postsRouter)
 
 
