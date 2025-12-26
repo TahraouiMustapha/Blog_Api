@@ -13,7 +13,7 @@ const validateUserCredentials = [
     ,
     body('password')
         .isLength({ min: 8, max: 16 }).withMessage('Password must be 8-16 characters long')
-        .matches(/\d/).withMessage('Password must contain at least one number')
+
 ]
 
 // POST  "/api/users" 

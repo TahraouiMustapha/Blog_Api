@@ -11,11 +11,14 @@ server.use(express.json())
 
 // import routes
 const usersRouter = require('./routes/users.js')
-const postsRouter = require('./routes/posts')
+const postsRouter = require('./routes/posts.js')
+const authRouter = require('./routes/auth.js')
 
 // Sign up
 server.use('/api/users', usersRouter)
 server.use('/api/posts', postsRouter)
+// Auth
+server.use('/api/auth', authRouter)
 
 
 
