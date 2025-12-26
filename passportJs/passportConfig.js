@@ -1,5 +1,8 @@
 const passport = require('passport')
-const localStrategy = require('passport-local')
+const localStrategy = require('passport-local').Strategy
+const JwtStrategy = require('passport-jwt').Strategy
+const ExtractJwt = require('passport-jwt').ExtractJwt
+
 const bcrypt = require('bcryptjs')
 
 const userModel = require('../models/users')
@@ -25,5 +28,24 @@ passport.use(new localStrategy(
         }
     })
 )
+
+passport.use(new JwtStrategy(
+    {
+        secretOrKey: process.env.SECRET_KEY,
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
+    },
+    async function (jwt_payload, done) {
+        try {
+            const user = await userModel.getUserByUsername(jwt_payload.user.username)
+            if (!user) {
+                return done(null, false, { message: "User not found Re-login again! " })
+            }
+
+            done(null, jwt_payload.user)
+        } catch (err) {
+            done(err)
+        }
+    }
+))
 
 module.exports = passport

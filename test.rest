@@ -1,0 +1,23 @@
+GET http://localhost:3000/api/posts 
+
+###
+// Sign up endpoint
+POST http://localhost:3000/api/users 
+Content-Type: application/x-www-form-urlencoded
+
+username=rouibiBelk@gmail.com&password=dodododo
+ 
+###
+// login endpoint
+POST http://localhost:3000/api/auth/profile
+Content-Type: application/x-www-form-urlencoded
+
+username=rouibiBelk@gmail.com&password=dodododo
+
+###
+// create a comment with roubiBelk account (secure route)
+POST http://localhost:3000/api/posts/1/comments 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InJvdWliaUJlbGtAZ21haWwuY29tIiwicm9sZSI6IlJlYWRlciJ9LCJpYXQiOjE3NjY3NjQ4MDV9.Odc8Jqj2oEyD-Ed3q0WtT9IQVYii9VqxLlYwKi7_pIE
+
+
+

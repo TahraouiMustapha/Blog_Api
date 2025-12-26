@@ -36,7 +36,15 @@ const authenticate = (req, res, next) => {
     )(req, res, next);
 }
 
+const verifyAuth = (req, res, next) => {
+    passport.authenticate(
+        'jwt',
+        { session: false }
+    )(req, res, next)
+}
+
 
 module.exports = {
-    authenticate
+    authenticate,
+    verifyAuth
 }

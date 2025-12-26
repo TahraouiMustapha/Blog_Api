@@ -3,8 +3,8 @@ const authRouter = express.Router()
 
 const authController = require('../controllers/auth')
 
-// POST "/api/auth" login
-authRouter.post('/',
+// POST "/api/auth/profile" login
+authRouter.post('/profile',
     authController.authenticate
 )
 

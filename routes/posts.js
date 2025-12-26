@@ -1,5 +1,6 @@
 const express = require('express')
 const postsRouter = express.Router()
+const authController = require('../controllers/auth')
 
 // import controllers
 const postsController = require('../controllers/posts')
@@ -14,7 +15,10 @@ postsRouter.get('/:postId', postsController.getPost)
 postsRouter.get('/:postId/comments', postsController.getCommentsUnderPost)
 
 // POST "/api/posts/:postId/comments" create comment 
-postsRouter.post('/:postId/comments', (req, res) => res.json({ message: "we want to create a comment" }))
+postsRouter.post('/:postId/comments',
+    authController.verifyAuth,
+    (req, res) => res.json({ message: "we want to create a comment" })
+)
 
 
 
