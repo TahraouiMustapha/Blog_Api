@@ -50,10 +50,10 @@ const createPost = async (req, res) => {
         published,
         text,
         thumbnailUrl,
-        authorId: id
+        authorId: Number(id)
     }
 
-    if (date) post = { date: date, ...post }
+    if (date) post = { ...post, date }
 
     await postsModel.createPost(post)
 
@@ -62,9 +62,36 @@ const createPost = async (req, res) => {
     })
 }
 
+const createComment = async (req, res, next) => {
+    const { username, date, text } = req.body;
+    let { postId } = req.params;
+    const { id } = req.user
+
+    if (!postId || isNaN(Number(postId)) || !Number.isInteger(Number(postId))) {
+        const err = new CustomError(400, 'Invalid post id')
+        return next(err)
+    }
+
+    const comment = {
+        username,
+        text,
+        authorId: Number(id),
+        postId: Number(postId)
+    }
+
+    if (date) comment = { ...comment, date }
+
+    await postsModel.createComment(comment)
+
+    return res.json({
+        message: 'Create comment successfully'
+    })
+}
+
 module.exports = {
     getAllPosts,
     getPost,
     getCommentsUnderPost,
-    createPost
+    createPost,
+    createComment
 }

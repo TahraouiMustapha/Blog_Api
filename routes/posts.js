@@ -25,7 +25,7 @@ postsRouter.get('/:postId/comments', postsController.getCommentsUnderPost)
 // POST "/api/posts/:postId/comments" create comment 
 postsRouter.post('/:postId/comments',
     authController.verifyAuth,
-    (req, res) => res.json({ message: "we want to create a comment" })
+    postsController.createComment
 )
 
 

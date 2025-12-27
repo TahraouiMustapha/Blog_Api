@@ -12,6 +12,15 @@ username=mustapha@gmail.com&password=blogAdmin
 // GET "/api/posts/:postId"
 // GET "/api/posts/:postId/comments"
 // POST "/api/posts/:postId/comments" create comment 
+###
+POST http://localhost:3000/api/posts/3/comments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InJvdWliaUJlbGtAZ21haWwuY29tIiwicm9sZSI6IlJlYWRlciJ9LCJpYXQiOjE3NjY4NTY4MzV9.VPuquom9ulODqzSve4U_mFWFvrTsZw9rVXLGjl4xepY
+Content-Type: application/json
+
+{
+   "username" : "rouibiBelk@gmail.com", 
+   "text" : "comment 1"   
+}
 
 // --admin--
 // POST "/api/posts" admin create a post
@@ -25,7 +34,7 @@ Content-Type: application/json
     "title":"first post by mosuta",
     "published": false, 
     "text": "hi hi capten", 
-    "thumbnailUrl": "url", 
+    "thumbnailUrl": "url",  
     "authorId": 6
 }
 

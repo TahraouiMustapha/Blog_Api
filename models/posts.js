@@ -47,11 +47,38 @@ const createPost = function ({ title, date, published, text, thumbnailUrl, autho
     })
 }
 
+const createComment = function ({
+    username,
+    date,
+    text,
+    authorId,
+    postId
+}) {
+    return prisma.comment.create({
+        data: {
+            username,
+            date,
+            text,
+            author: {
+                connect: {
+                    userId: authorId
+                }
+            },
+            post: {
+                connect: {
+                    postId: postId
+                }
+            }
+        }
+    })
+}
+
 module.exports = {
     getAllPosts,
     getPostById,
     getCommentsUnderPost,
-    createPost
+    createPost,
+    createComment
 }
 
 
