@@ -8,8 +8,16 @@ const postsController = require('../controllers/posts')
 // GET "/api/posts"
 postsRouter.get('/', postsController.getAllPosts)
 
+// POST "api/posts"
+postsRouter.post('/',
+    authController.verifyAuth,
+    authController.isAdmin,
+    postsController.createPost
+)
+
 // GET "/api/posts/:postId"
 postsRouter.get('/:postId', postsController.getPost)
+
 
 // GET "/api/posts/:postId/comments"
 postsRouter.get('/:postId/comments', postsController.getCommentsUnderPost)

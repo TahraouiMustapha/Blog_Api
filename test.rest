@@ -1,23 +1,47 @@
-GET http://localhost:3000/api/posts 
+// --users--
+// POST  "/api/users" sign up
 
-###
-// Sign up endpoint
-POST http://localhost:3000/api/users 
+// --admin--
+POST http://localhost:3000/api/users
 Content-Type: application/x-www-form-urlencoded
 
-username=rouibiBelk@gmail.com&password=dodododo
- 
+username=mustapha@gmail.com&password=blogAdmin
+
+// --posts--
+// GET "/api/posts"
+// GET "/api/posts/:postId"
+// GET "/api/posts/:postId/comments"
+// POST "/api/posts/:postId/comments" create comment 
+
+// --admin--
+// POST "/api/posts" admin create a post
 ###
-// login endpoint
+POST http://localhost:3000/api/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo3LCJ1c2VybmFtZSI6Im11c3RhcGhhQGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiJ9LCJpYXQiOjE3NjY4Mzk3ODh9.few50pGXZ9B7Hva4LQCPg6L4Q6elzCOX9UGTfVtRqnE
+Content-Type: application/json
+
+{
+    "username":"mustapha@gmail.com", 
+    "title":"first post by mosuta",
+    "published": false, 
+    "text": "hi hi capten", 
+    "thumbnailUrl": "url", 
+    "authorId": 6
+}
+
+
+// --auth--
+// POST "/api/auth/profile" login
+###
 POST http://localhost:3000/api/auth/profile
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 
-username=rouibiBelk@gmail.com&password=dodododo
+{
+    "username": "rouibiBelk@gmail.com", 
+    "password": "dodododo"
+}
 
-###
-// create a comment with roubiBelk account (secure route)
-POST http://localhost:3000/api/posts/1/comments 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InJvdWliaUJlbGtAZ21haWwuY29tIiwicm9sZSI6IlJlYWRlciJ9LCJpYXQiOjE3NjY3NjQ4MDV9.Odc8Jqj2oEyD-Ed3q0WtT9IQVYii9VqxLlYwKi7_pIE
+// POST "/api/auth/logout" logout
 
 
 

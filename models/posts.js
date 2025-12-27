@@ -30,10 +30,28 @@ const getCommentsUnderPost = function (postId) {
     })
 }
 
+const createPost = function ({ title, date, published, text, thumbnailUrl, authorId }) {
+    return prisma.post.create({
+        data: {
+            title,
+            date,
+            published,
+            text,
+            thumbnailUrl,
+            author: {
+                connect: {
+                    userId: authorId
+                }
+            }
+        },
+    })
+}
+
 module.exports = {
     getAllPosts,
     getPostById,
-    getCommentsUnderPost
+    getCommentsUnderPost,
+    createPost
 }
 
 

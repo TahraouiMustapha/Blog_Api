@@ -41,8 +41,30 @@ const getCommentsUnderPost = async (req, res) => {
     });
 }
 
+const createPost = async (req, res) => {
+    const { title, date, published, text, thumbnailUrl } = req.body
+    const { id } = req.user
+
+    let post = {
+        title,
+        published,
+        text,
+        thumbnailUrl,
+        authorId: id
+    }
+
+    if (date) post = { date: date, ...post }
+
+    await postsModel.createPost(post)
+
+    return res.json({
+        message: 'Create post successfully'
+    })
+}
+
 module.exports = {
     getAllPosts,
     getPost,
-    getCommentsUnderPost
+    getCommentsUnderPost,
+    createPost
 }
