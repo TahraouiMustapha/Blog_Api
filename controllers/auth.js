@@ -2,6 +2,7 @@
 const passport = require('../passportJs/passportConfig')
 const jwt = require('jsonwebtoken')
 const CustomError = require('../errors/CustomError')
+const CustomResponse = require('../utils/customResponse')
 
 const authenticate = (req, res, next) => {
     passport.authenticate('local',
@@ -29,7 +30,9 @@ const authenticate = (req, res, next) => {
                             role: user.role
                         }
                         const token = jwt.sign({ user: body }, process.env.SECRET_KEY)
-                        return res.json({ token })
+
+                        const response = new CustomResponse(true, 'User is authenticated', { token })
+                        return res.status(200).json(response)
                     }
                 )
             } catch (error) {

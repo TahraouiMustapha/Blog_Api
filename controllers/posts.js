@@ -1,12 +1,12 @@
 const postsModel = require('../models/posts')
 const CustomError = require('../errors/CustomError')
-
+const CustomResponse = require('../utils/customResponse')
 
 const getAllPosts = async (req, res) => {
     const posts = await postsModel.getAllPosts()
-    return res.json({
-        posts
-    })
+
+    const response = new CustomResponse(true, 'success retreive data', { posts })
+    return res.status(200).json(response)
 }
 
 const getPost = async (req, res) => {
@@ -22,9 +22,8 @@ const getPost = async (req, res) => {
         throw new CustomError(404, "Post not found")
     }
 
-    return res.json({
-        post: post
-    });
+    const response = new CustomResponse(true, 'success retreive data', { post })
+    return res.status(200).json(response)
 }
 
 const getCommentsUnderPost = async (req, res) => {
@@ -36,9 +35,8 @@ const getCommentsUnderPost = async (req, res) => {
 
     const comments = await postsModel.getCommentsUnderPost(Number(postId))
 
-    return res.json({
-        comments
-    });
+    const response = new CustomResponse(true, 'success retreive data', { comments })
+    return res.status(200).json(response)
 }
 
 const createPost = async (req, res) => {
@@ -57,15 +55,14 @@ const createPost = async (req, res) => {
 
     await postsModel.createPost(post)
 
-    return res.json({
-        message: 'Create post successfully'
-    })
+    const response = new CustomResponse(true, 'Create post successfully', {})
+    return res.status(200).json(response)
 }
 
 const createComment = async (req, res, next) => {
-    const { username, date, text } = req.body;
+    const { text } = req.body;
     let { postId } = req.params;
-    const { id } = req.user
+    const { id, username } = req.user
 
     if (!postId || isNaN(Number(postId)) || !Number.isInteger(Number(postId))) {
         const err = new CustomError(400, 'Invalid post id')
@@ -79,13 +76,12 @@ const createComment = async (req, res, next) => {
         postId: Number(postId)
     }
 
-    if (date) comment = { ...comment, date }
+    // if (date) comment = { ...comment, date } 
 
     await postsModel.createComment(comment)
 
-    return res.json({
-        message: 'Create comment successfully'
-    })
+    const response = new CustomResponse(true, 'Create comment successfully', {})
+    return res.status(200).json(response)
 }
 
 module.exports = {

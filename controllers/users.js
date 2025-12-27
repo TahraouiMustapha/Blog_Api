@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const usersModel = require('../models/users')
 const { validationResult } = require('express-validator')
+const CustomResponse = require('../utils/customResponse')
 
 
 
@@ -16,9 +17,9 @@ const registerNewUser = async (req, res) => {
 
     // create new user 
     await usersModel.createUser({ username, password: hashedPass })
-    return res.status(201).json({
-        message: "User registred successfully"
-    })
+
+    const response = new CustomResponse(true, 'User registred successfully', {})
+    return res.status(200).json(response)
 }
 
 module.exports = {
