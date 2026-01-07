@@ -1,10 +1,9 @@
 
 class CustomResponse {
-    constructor(success, message, data = null, error = null) {
+    constructor(success, message, data = null) {
         this.success = success
         this.message = message
         this.data = data
-        this.error = error
     }
 }
 

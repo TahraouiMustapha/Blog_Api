@@ -5,15 +5,14 @@
 POST http://localhost:3000/api/users
 Content-Type: application/x-www-form-urlencoded
 
-# username=mustapha@gmail.com&password=blogAdmin
-username=didi@gmail.com&password=blogblog
+username=mustapha@gmail.com&password=blogAdmin
 
 // --posts--
 // GET "/api/posts"
+###
+GET http://localhost:3000/api/posts/1
 // GET "/api/posts/:postId"
 // GET "/api/posts/:postId/comments"
-### 
-GET http://localhost:3000/api/posts/3/comments
 // POST "/api/posts/:postId/comments" create comment 
 ###
 POST http://localhost:3000/api/posts/3/comments
