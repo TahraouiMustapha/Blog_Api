@@ -6,29 +6,21 @@ cloudinary.config({
 
 console.log(cloudinary.config());
 
+const uploadToCloudinary = (fileBuffer) => {
+    return new Promise((resolve, reject) => {
 
-const uploadImage = async (imagePath) => {
+        const stream = cloudinary.uploader.upload_stream(
+            { folder: "blog_posts" },
+            (error, result) => {
+                if (error) return reject(error);
+                resolve(result);
+            }
+        );
 
-    const options = {
-        use_filename: true,
-        unique_filename: false,
-        overwrite: true,
-    };
-
-    try {
-        const result = await cloudinary.uploader.upload(imagePath, options);
-        console.log(result);
-        // {secure_url
-        // url 
-        // public_id 
-        // asset_id 
-        // version }
-        return result;
-    } catch (error) {
-        console.error(error)
-    }
+        stream.end(fileBuffer);
+    });
 };
 
 module.exports = {
-    uploadImage
+    uploadToCloudinary
 }

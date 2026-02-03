@@ -2,6 +2,9 @@ const postsModel = require('../models/posts')
 const CustomError = require('../errors/CustomError')
 const CustomResponse = require('../utils/customResponse')
 
+// cloudinary service 
+const { uploadToCloudinary } = require('../services/cloudinary.service')
+
 const getAllPosts = async (req, res) => {
     const posts = await postsModel.getAllPosts()
 
@@ -40,14 +43,17 @@ const getCommentsUnderPost = async (req, res) => {
 }
 
 const createPost = async (req, res) => {
-    const { title, date, published, text, thumbnailUrl } = req.body
+    const { title, date, published, text } = req.body
     const { id } = req.user
+    const file = req.file;
+
+    const result = await uploadToCloudinary(file.buffer)
 
     let post = {
         title,
         published,
         text,
-        thumbnailUrl,
+        thumbnailUrl: result.secure_url,
         authorId: Number(id)
     }
 

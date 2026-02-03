@@ -2,6 +2,11 @@ const express = require('express')
 const postsRouter = express.Router()
 const authController = require('../controllers/auth')
 
+const multer = require('multer')
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
+
+
 // import controllers
 const postsController = require('../controllers/posts')
 
@@ -12,6 +17,7 @@ postsRouter.get('/', postsController.getAllPosts)
 postsRouter.post('/',
     authController.verifyAuth,
     authController.isAdmin,
+    upload.single('image'),
     postsController.createPost
 )
 
