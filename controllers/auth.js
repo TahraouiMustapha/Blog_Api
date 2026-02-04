@@ -29,9 +29,22 @@ const authenticate = (req, res, next) => {
                             username: user.username,
                             role: user.role
                         }
-                        const token = jwt.sign({ user: body }, process.env.SECRET_KEY)
+                        // const token = jwt.sign({ user: body }, process.env.SECRET_KEY)
+                        const accessToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: 15 * 60 * 1000 })
+                        const refreshToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: 7 * 24 * 60 * 60 * 1000 })
 
-                        const response = new CustomResponse(true, 'User is authenticated', { token })
+                        // store refresh token in DB 
+
+                        // set refresh token as httpOnly cookie
+                        res.cookie('refreshToken', refreshToken, {
+                            httpOnly: true,
+                            secure: process.env.NODE_ENV === 'production',
+                            sameSite: 'strict',
+                            maxAge: 7 * 24 * 60 * 60 * 1000
+                        });
+
+
+                        const response = new CustomResponse(true, 'User is authenticated', { accessToken })
                         return res.status(200).json(response)
                     }
                 )
