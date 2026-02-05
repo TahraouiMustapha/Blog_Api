@@ -1,4 +1,5 @@
 const express = require('express')
+const { Prisma } = require('./generated/prisma/client')
 require('dotenv').config()
 
 const cors = require('cors')
@@ -21,6 +22,7 @@ server.use(cors(corsOptions))
 const usersRouter = require('./routes/users.js')
 const postsRouter = require('./routes/posts.js')
 const authRouter = require('./routes/auth.js')
+const CustomResponse = require('./utils/customResponse.js')
 
 // Sign up
 server.use('/api/users', usersRouter)
@@ -39,6 +41,15 @@ server.use((req, res) => {
 
 // middlware error handling
 server.use((err, req, res, next) => {
+
+    // handle prisma errors
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        if (err.code) {
+            const errResponse = new CustomResponse(false, "Unique constraint error", { error: "Email already exist!" })
+            return res.status(409).json(errResponse)
+        }
+    }
+
     console.error(err)
 
     res.status(err.statusCode || 500).json({
