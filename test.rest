@@ -7,6 +7,13 @@ Content-Type: application/json
     "username": "cha3bi@gmail.com", 
     "password" : "adfasdfasdf"
 }
+
+### -- get User info --
+POST http://localhost:3000/api/users/me
+Content-Type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InJvdWliaUJlbGtAZ21haWwuY29tIiwicm9sZSI6IlJlYWRlciJ9LCJpYXQiOjE3NzAzMzI4ODAsImV4cCI6MTc3MTIzMjg4MH0.AqQ-d3M1R6WRotC-4Tx3S33MGjTdLnICrF0fHzfwFaU
+
+
 ###
 // --admin--
 POST http://localhost:3000/api/users

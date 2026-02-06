@@ -22,6 +22,19 @@ const registerNewUser = async (req, res) => {
     return res.status(200).json(response)
 }
 
+const getAuthenticatedUser = async (req, res) => {
+    const userPayload = req.user;
+
+
+    const user = await usersModel.getUserByUsername(userPayload.username)
+
+    const { password, ...safeUser } = user
+
+    const response = new CustomResponse(true, '', { user: safeUser })
+    return res.status(200).json(response)
+}
+
 module.exports = {
-    registerNewUser
+    registerNewUser,
+    getAuthenticatedUser
 }

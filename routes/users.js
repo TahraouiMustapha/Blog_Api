@@ -1,8 +1,9 @@
 const express = require('express');
 const usersRouter = express.Router();
 
-const { body, validationResult } = require('express-validator');
+const { body } = require('express-validator');
 const usersController = require('../controllers/users')
+const { verifyAuth } = require('../controllers/auth')
 
 
 const validateUserCredentials = [
@@ -19,6 +20,8 @@ const validateUserCredentials = [
 // POST  "/api/users" 
 usersRouter.post("/", validateUserCredentials, usersController.registerNewUser)
 
+// POST "/api/users/me"
+usersRouter.post("/me", verifyAuth, usersController.getAuthenticatedUser)
 
 module.exports = usersRouter
 
