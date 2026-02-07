@@ -1,5 +1,5 @@
 generator client {
-  provider   = "prisma-client"
+  provider   = "prisma-client-js"
   engineType = "client"
   output     = "../generated/prisma/client"
 }
@@ -40,7 +40,7 @@ model Comment {
   post      Post     @relation(fields: [postId], references: [postId])
 }
 
-model RefreshToken {
+model Refreshtoken {
   tokenId Int    @id @default(autoincrement())
   token   String @unique
 }
