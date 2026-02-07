@@ -3,6 +3,7 @@ const passport = require('../passportJs/passportConfig')
 const jwt = require('jsonwebtoken')
 const CustomError = require('../errors/CustomError')
 const CustomResponse = require('../utils/customResponse')
+const { saveRefreshToken } = require('../models/auth')
 
 const authenticate = (req, res, next) => {
     passport.authenticate('local',
@@ -18,7 +19,7 @@ const authenticate = (req, res, next) => {
 
                 req.login(user,
                     { session: false },
-                    (err) => {
+                    async (err) => {
                         if (err) {
                             return next(err)
                         }
@@ -34,7 +35,7 @@ const authenticate = (req, res, next) => {
                         const refreshToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: 7 * 24 * 60 * 60 * 1000 })
 
                         // store refresh token in DB 
-
+                        await saveRefreshToken({ token: refreshToken })
                         // set refresh token as httpOnly cookie
                         res.cookie('refreshToken', refreshToken, {
                             httpOnly: true,
