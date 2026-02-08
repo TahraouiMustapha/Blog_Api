@@ -10,11 +10,10 @@ authRouter.post('/profile',
 )
 
 // POST "/api/auth/logout" logout
-authRouter.post('/logout', (req, res) => {
-
-    const response = new CustomResponse(true, 'Log out', {})
-    return res.status(200).json(response)
-});
+authRouter.post('/logout',
+    authController.verifyAuth,
+    authController.logout
+);
 
 module.exports = authRouter
 

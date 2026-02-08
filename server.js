@@ -3,19 +3,22 @@ const { Prisma } = require('./generated/prisma/client')
 require('dotenv').config()
 
 const cors = require('cors')
-
 const server = express()
+const cookieParser = require('cookie-parser');
 
 // configurations
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json())
+server.use(cookieParser());
 
 // CORS configuration
 const corsOptions = {
     origin: 'http://localhost:5173',
-    optionsSuccessStatus: 200
+    optionsSuccessStatus: 200,
+    credentials: true,
 }
 server.use(cors(corsOptions))
+
 
 
 // import routes

@@ -66,7 +66,12 @@ Content-Type: application/json
     "password": "dodododo"
 }
 
+###
 // POST "/api/auth/logout" logout
+POST http://localhost:3000/api/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InJvdWliaUJlbGtAZ21haWwuY29tIiwicm9sZSI6IlJlYWRlciJ9LCJpYXQiOjE3NzA0NzU3MDgsImV4cCI6MTc3MTM3NTcwOH0.VQb5aBygMTPZGk7EFgpkYeUZhPFXz_molMderOm7rKM
+
+
 
 
 

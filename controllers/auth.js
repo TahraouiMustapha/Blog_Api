@@ -3,7 +3,7 @@ const passport = require('../passportJs/passportConfig')
 const jwt = require('jsonwebtoken')
 const CustomError = require('../errors/CustomError')
 const CustomResponse = require('../utils/customResponse')
-const { saveRefreshToken } = require('../models/auth')
+const { saveRefreshToken, getRefreshToken } = require('../models/auth')
 
 const authenticate = (req, res, next) => {
     passport.authenticate('local',
@@ -39,11 +39,10 @@ const authenticate = (req, res, next) => {
                         // set refresh token as httpOnly cookie
                         res.cookie('refreshToken', refreshToken, {
                             httpOnly: true,
-                            secure: process.env.NODE_ENV === 'production',
-                            sameSite: 'strict',
+                            secure: process.env.NODE_ENV === 'production', // secure in production (https)
+                            sameSite: 'lax', // for cross-origin (default for modern browser)
                             maxAge: 7 * 24 * 60 * 60 * 1000
                         });
-
 
                         const response = new CustomResponse(true, 'User is authenticated', { accessToken })
                         return res.status(200).json(response)
@@ -70,9 +69,26 @@ const isAdmin = (req, res, next) => {
     next()
 }
 
+const logout = async (req, res, next) => {
+    const { refreshToken } = req.cookies;
+
+
+    const validToken = await getRefreshToken({ token: refreshToken })
+    if (!validToken) {
+        return next(new CustomError(403, 'Forbidden'))
+    }
+
+    // delete refresh token after successful check
+    res.clearCookie('refreshToken');
+
+    const response = new CustomResponse(true, 'Log out', {})
+    return res.status(200).json(response)
+}
+
 
 module.exports = {
     authenticate,
     verifyAuth,
-    isAdmin
+    isAdmin,
+    logout
 }
