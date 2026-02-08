@@ -3,7 +3,7 @@ const passport = require('../passportJs/passportConfig')
 const jwt = require('jsonwebtoken')
 const CustomError = require('../errors/CustomError')
 const CustomResponse = require('../utils/customResponse')
-const { saveRefreshToken, getRefreshToken } = require('../models/auth')
+const { saveRefreshToken, getRefreshToken, removeRefreshToken } = require('../models/auth')
 
 const authenticate = (req, res, next) => {
     passport.authenticate('local',
@@ -31,8 +31,8 @@ const authenticate = (req, res, next) => {
                             role: user.role
                         }
                         // const token = jwt.sign({ user: body }, process.env.SECRET_KEY)
-                        const accessToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: 15 * 60 * 1000 })
-                        const refreshToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: 7 * 24 * 60 * 60 * 1000 })
+                        const accessToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: '15m' })
+                        const refreshToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: '7d' })
 
                         // store refresh token in DB 
                         await saveRefreshToken({ token: refreshToken })
@@ -58,7 +58,20 @@ const authenticate = (req, res, next) => {
 const verifyAuth = (req, res, next) => {
     passport.authenticate(
         'jwt',
-        { session: false }
+        { session: false },
+        (err, user, info) => { // to handle expired tokens
+            if (err) return next(err)
+
+            if (!user) {
+                if (info.name === 'TokenExpiredError') {
+                    return res.status(401).json({ error: 'Token expired' })
+                }
+                return res.status(401).json({ error: 'Unauthorized' })
+            }
+
+            req.user = user
+            next()
+        }
     )(req, res, next)
 }
 
@@ -69,16 +82,39 @@ const isAdmin = (req, res, next) => {
     next()
 }
 
+const refresh = async (req, res) => {
+    const { refreshToken } = req.cookies;
+
+    const validToken = await getRefreshToken({ token: refreshToken })
+    if (!validToken) {
+        return next(new CustomError(403, 'Token is invalid'))
+    }
+
+    const { user } = jwt.verify(refreshToken, process.env.SECRET_KEY)
+
+    const body = {
+        id: user.userId,
+        username: user.username,
+        role: user.role
+    }
+
+    const accessToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: 15 * 60 * 1000 })
+
+    const response = new CustomResponse(true, 'token is refreshed', { accessToken })
+    res.status(200).json(response)
+}
+
 const logout = async (req, res, next) => {
     const { refreshToken } = req.cookies;
 
 
     const validToken = await getRefreshToken({ token: refreshToken })
     if (!validToken) {
-        return next(new CustomError(403, 'Forbidden'))
+        return next(new CustomError(403, 'Token is invalid'))
     }
 
     // delete refresh token after successful check
+    await removeRefreshToken({ token: refreshToken })
     res.clearCookie('refreshToken');
 
     const response = new CustomResponse(true, 'Log out', {})
@@ -86,9 +122,11 @@ const logout = async (req, res, next) => {
 }
 
 
+
 module.exports = {
     authenticate,
     verifyAuth,
     isAdmin,
+    refresh,
     logout
 }

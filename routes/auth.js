@@ -2,7 +2,6 @@ const express = require('express')
 const authRouter = express.Router()
 
 const authController = require('../controllers/auth')
-const CustomResponse = require('../utils/customResponse')
 
 // POST "/api/auth/profile" login
 authRouter.post('/profile',
@@ -14,6 +13,11 @@ authRouter.post('/logout',
     authController.verifyAuth,
     authController.logout
 );
+
+// POST "/api/auth/refresh" 
+authRouter.post('/refresh',
+    authController.refresh
+)
 
 module.exports = authRouter
 
