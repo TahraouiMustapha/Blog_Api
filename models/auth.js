@@ -18,7 +18,17 @@ const getRefreshToken = ({ token }) => {
     })
 }
 
+const removeRefreshToken = ({ token }) => {
+    return prisma.refreshtoken.deleteMany({
+        where: {
+            token,
+        },
+    })
+
+}
+
 module.exports = {
     saveRefreshToken,
-    getRefreshToken
+    getRefreshToken,
+    removeRefreshToken
 }
