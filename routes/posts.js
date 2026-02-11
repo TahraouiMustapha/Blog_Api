@@ -1,6 +1,5 @@
 const express = require('express')
 const postsRouter = express.Router()
-const authController = require('../controllers/auth')
 
 const multer = require('multer')
 const storage = multer.memoryStorage()
@@ -8,6 +7,7 @@ const upload = multer({ storage: storage })
 
 
 // import controllers
+const authController = require('../controllers/auth')
 const postsController = require('../controllers/posts')
 
 // GET "/api/posts"
@@ -21,12 +21,9 @@ postsRouter.post('/',
     postsController.createPost
 )
 
-// GET "/api/posts/:postId"
-postsRouter.get('/:postId', postsController.getPost)
+// GET "/api/posts/:postId" and its comments
+postsRouter.get('/:postId', postsController.getPostWithComments)
 
-
-// GET "/api/posts/:postId/comments"
-postsRouter.get('/:postId/comments', postsController.getCommentsUnderPost)
 
 // POST "/api/posts/:postId/comments" create comment 
 postsRouter.post('/:postId/comments',

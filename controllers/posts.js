@@ -12,14 +12,14 @@ const getAllPosts = async (req, res) => {
     return res.status(200).json(response)
 }
 
-const getPost = async (req, res) => {
+const getPostWithComments = async (req, res) => {
     const { postId } = req.params
 
     if (typeof postId !== 'number' && isNaN(postId)) {
         throw new CustomError(400, "Invalid postId")
     }
 
-    const post = await postsModel.getPostById(Number(postId))
+    const post = await postsModel.getPostWithComments(Number(postId))
 
     if (!post) {
         throw new CustomError(404, "Post not found")
@@ -29,18 +29,6 @@ const getPost = async (req, res) => {
     return res.status(200).json(response)
 }
 
-const getCommentsUnderPost = async (req, res) => {
-    const { postId } = req.params
-
-    if (typeof postId !== 'number' && isNaN(postId)) {
-        throw new CustomError(400, "Invalid postId")
-    }
-
-    const comments = await postsModel.getCommentsUnderPost(Number(postId))
-
-    const response = new CustomResponse(true, 'success retreive data', { comments })
-    return res.status(200).json(response)
-}
 
 const createPost = async (req, res) => {
     const { title, date, published, text } = req.body
@@ -92,8 +80,7 @@ const createComment = async (req, res, next) => {
 
 module.exports = {
     getAllPosts,
-    getPost,
-    getCommentsUnderPost,
+    getPostWithComments,
     createPost,
     createComment
 }

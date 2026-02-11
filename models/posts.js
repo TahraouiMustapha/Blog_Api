@@ -6,18 +6,13 @@ const getAllPosts = function () {
     return prisma.post.findMany()
 }
 
-const getPostById = function (postId) {
+const getPostWithComments = function (postId) {
     return prisma.post.findUnique({
         where: {
             postId: postId
-        }
-    })
-}
-
-const getCommentsUnderPost = function (postId) {
-    return prisma.comment.findMany({
-        where: {
-            postId: postId
+        },
+        include: {
+            comments: true
         }
     })
 }
@@ -67,8 +62,7 @@ const createComment = function ({
 
 module.exports = {
     getAllPosts,
-    getPostById,
-    getCommentsUnderPost,
+    getPostWithComments,
     createPost,
     createComment
 }
