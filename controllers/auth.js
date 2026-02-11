@@ -82,26 +82,35 @@ const isAdmin = (req, res, next) => {
     next()
 }
 
-const refresh = async (req, res) => {
-    const { refreshToken } = req.cookies;
+const refresh = async (req, res, next) => {
+    try {
+        const { refreshToken } = req.cookies;
 
-    const validToken = await getRefreshToken({ token: refreshToken })
-    if (!validToken) {
-        return next(new CustomError(403, 'Token is invalid'))
+        const validToken = await getRefreshToken({ token: refreshToken })
+        if (!validToken) {
+            return next(new CustomError(403, 'Token is invalid'))
+        }
+
+        const payload = jwt.verify(refreshToken, process.env.SECRET_KEY)
+        const { user } = payload
+
+        const body = {
+            id: user.userId,
+            username: user.username,
+            role: user.role
+        }
+
+        const accessToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: 15 * 60 * 1000 })
+
+        const response = new CustomResponse(true, 'token is refreshed', { accessToken })
+        res.status(200).json(response)
+
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return next(new CustomError(403, 'Token is invalid'))
+        }
+        return next(error)
     }
-
-    const { user } = jwt.verify(refreshToken, process.env.SECRET_KEY)
-
-    const body = {
-        id: user.userId,
-        username: user.username,
-        role: user.role
-    }
-
-    const accessToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: 15 * 60 * 1000 })
-
-    const response = new CustomResponse(true, 'token is refreshed', { accessToken })
-    res.status(200).json(response)
 }
 
 const logout = async (req, res, next) => {
