@@ -72,9 +72,9 @@ const createComment = async (req, res, next) => {
 
     // if (date) comment = { ...comment, date } 
 
-    await postsModel.createComment(comment)
+    const newComment = await postsModel.createComment(comment)
 
-    const response = new CustomResponse(true, 'Create comment successfully', {})
+    const response = new CustomResponse(true, 'Create comment successfully', { comment: newComment })
     return res.status(200).json(response)
 }
 

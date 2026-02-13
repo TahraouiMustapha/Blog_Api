@@ -36,7 +36,7 @@ const createPost = function ({ title, date, published, text, thumbnailUrl, autho
 
 const createComment = function ({
     username,
-    date,
+    //date, auto_generated
     text,
     authorId,
     postId
@@ -44,7 +44,7 @@ const createComment = function ({
     return prisma.comment.create({
         data: {
             username,
-            date,
+            // date,
             text,
             author: {
                 connect: {
