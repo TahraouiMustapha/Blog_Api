@@ -5,7 +5,7 @@ const authController = require('../controllers/auth')
 
 // POST "/api/auth/profile" login
 authRouter.post('/profile',
-    authController.authenticate
+    authController.authenticate()
 )
 
 // POST "/api/auth/logout" logout
