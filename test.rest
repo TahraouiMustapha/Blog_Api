@@ -11,7 +11,7 @@ Content-Type: application/json
 ### -- get User info --
 POST http://localhost:3000/api/users/me
 Content-Type: application/json 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJ1c2VybmFtZSI6InJvdWliaUJlbGtAZ21haWwuY29tIiwicm9sZSI6IlJlYWRlciJ9LCJpYXQiOjE3NzAzMzI4ODAsImV4cCI6MTc3MTIzMjg4MH0.AqQ-d3M1R6WRotC-4Tx3S33MGjTdLnICrF0fHzfwFaU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo3LCJ1c2VybmFtZSI6Im11c3RhcGhhQGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiJ9LCJpYXQiOjE3NzU3NTQ0MjQsImV4cCI6MTc3NTc1NDQ1NH0.nLHrx6QcDIig72eoZ8wQGy__-UI4HvWmagy-PkDd6OY
 
 ###
 // --admin--
@@ -38,8 +38,16 @@ Content-Type: application/json
 {
    "text" : "comment 1"   
 }
+###
+// -- admin route --
+POST http://localhost:3000/api/admin/auth
+Content-Type: application/json
 
-// --admin--
+{
+    "username": "mustapha@gmail.com", 
+    "password": "blogAdmin"
+}
+
 // POST "/api/posts" admin create a post
 ###
 POST http://localhost:3000/api/posts
@@ -63,8 +71,8 @@ POST http://localhost:3000/api/auth/profile
 Content-Type: application/json
 
 {
-    "username": "rouibiBelk@gmail.com", 
-    "password": "dodododo"
+    "username": "cha3bi@gmail.com", 
+    "password": "asdfasdf"
 }
 
 ###

@@ -67,9 +67,11 @@ const verifyAuth = (req, res, next) => {
     passport.authenticate(
         'jwt',
         { session: false },
-        (err, user, info) => { // to handle expired tokens
+        (err, user, info) => {
+            // for passport strategy and middlware errs 
             if (err) return next(err)
 
+            // to handle expired tokens    
             if (!user) {
                 if (info.name === 'TokenExpiredError') {
                     return res.status(401).json({ error: 'Token expired' })
@@ -108,7 +110,7 @@ const refresh = async (req, res, next) => {
             role: user.role
         }
 
-        const accessToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: 15 * 60 * 1000 })
+        const accessToken = jwt.sign({ user: body }, process.env.SECRET_KEY, { expiresIn: '15m' })
 
         const response = new CustomResponse(true, 'token is refreshed', { accessToken })
         res.status(200).json(response)

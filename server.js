@@ -25,6 +25,7 @@ server.use(cors(corsOptions))
 const usersRouter = require('./routes/users.js')
 const postsRouter = require('./routes/posts.js')
 const authRouter = require('./routes/auth.js')
+const adminRouter = require('./routes/admin.js')
 const CustomResponse = require('./utils/customResponse.js')
 
 // Sign up
@@ -32,7 +33,8 @@ server.use('/api/users', usersRouter)
 server.use('/api/posts', postsRouter)
 // Auth
 server.use('/api/auth', authRouter)
-
+// Admin
+server.use('/api/admin', adminRouter)
 
 
 // handle not found pages
