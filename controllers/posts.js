@@ -91,12 +91,12 @@ const changePublishedState = async (req, res) => {
     }
 
 
-    await (published
+    const updatedPost = await (published
         ? postsModel.publishPost(Number(postId))
         : postsModel.unpublishPost(Number(postId)))
 
 
-    const response = new CustomResponse(true, 'Update post successfully', {})
+    const response = new CustomResponse(true, 'Update post successfully', { post: updatedPost })
     return res.status(200).json(response)
 }
 
