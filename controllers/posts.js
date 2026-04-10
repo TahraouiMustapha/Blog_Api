@@ -6,7 +6,14 @@ const CustomResponse = require('../utils/customResponse')
 const { uploadToCloudinary } = require('../services/cloudinary.service')
 
 const getAllPosts = async (req, res) => {
-    const posts = await postsModel.getAllPosts()
+
+    let posts;
+    if (req.user?.role && req.user?.role == 'Admin') {
+        posts = await postsModel.getAllPosts()
+    } else {
+        posts = await postsModel.getPublishedPosts()
+    }
+
 
     const response = new CustomResponse(true, 'success retreive data', { posts })
     return res.status(200).json(response)

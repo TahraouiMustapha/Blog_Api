@@ -14,7 +14,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo3LCJ1c2VybmFtZSI6Im11c3RhcGhhQGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiJ9LCJpYXQiOjE3NzU3NTQ0MjQsImV4cCI6MTc3NTc1NDQ1NH0.nLHrx6QcDIig72eoZ8wQGy__-UI4HvWmagy-PkDd6OY
 
 ###
-// --admin--
+// --admin-- 
 POST http://localhost:3000/api/users
 Content-Type: application/x-www-form-urlencoded
 
@@ -22,7 +22,7 @@ username=mustapha@gmail.com&password=blogAdmin
 
 ###
 // --posts--
-// GET "/api/posts"
+// GET "/api/posts" for regular users
 GET http://localhost:3000/api/posts
 
 // -- get post with its comments
@@ -39,7 +39,7 @@ Content-Type: application/json
    "text" : "comment 1"   
 }
 ###
-// -- admin route --
+// -- admin routes --
 POST http://localhost:3000/api/admin/auth
 Content-Type: application/json
 

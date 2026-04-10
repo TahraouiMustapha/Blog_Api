@@ -6,6 +6,14 @@ const getAllPosts = function () {
     return prisma.post.findMany()
 }
 
+const getPublishedPosts = function () {
+    return prisma.post.findMany({
+        where: {
+            published: true
+        }
+    })
+}
+
 const getPostWithComments = function (postId) {
     return prisma.post.findUnique({
         where: {
@@ -85,6 +93,7 @@ const unpublishPost = function (postId) {
 
 module.exports = {
     getAllPosts,
+    getPublishedPosts,
     getPostWithComments,
     createPost,
     createComment,
