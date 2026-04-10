@@ -25,6 +25,11 @@ username=mustapha@gmail.com&password=blogAdmin
 // GET "/api/posts" for regular users
 GET http://localhost:3000/api/posts
 
+###
+// GET "/api/admin/posts" for admin
+GET http://localhost:3000/api/admin/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo3LCJ1c2VybmFtZSI6Im11c3RhcGhhQGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiJ9LCJpYXQiOjE3NzU4NTU2NTQsImV4cCI6MTc3NTg1NjU1NH0.v8_K-fmRxJflDUBflMSvhHE78JKPcMrDWRtiD0Ai2h0
+
 // -- get post with its comments
 // GET "/api/posts/:postId"
 ###

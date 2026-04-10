@@ -5,6 +5,12 @@ const adminRouter = express.Router()
 const authController = require('../controllers/auth')
 const postContorller = require('../controllers/posts')
 
+// GET /api/admin/posts
+adminRouter.get('/posts',
+    authController.verifyAuth,
+    authController.isAdmin,
+    postContorller.getAllPosts
+)
 
 // POST /api/admin/auth (login)
 adminRouter.post('/auth',
@@ -14,8 +20,8 @@ adminRouter.post('/auth',
 // POST /api/admin/posts
 // create a post
 
-// publish and unpublish (posts)
 // PATCH /api/admin/posts/:postId
+// publish and unpublish (posts)
 adminRouter.patch('/posts/:postId',
     authController.verifyAuth,
     authController.isAdmin,
