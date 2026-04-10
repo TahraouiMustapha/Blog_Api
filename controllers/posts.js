@@ -78,9 +78,32 @@ const createComment = async (req, res, next) => {
     return res.status(200).json(response)
 }
 
+const changePublishedState = async (req, res) => {
+    const { postId } = req.params
+    const { published } = req.body
+
+    if (typeof postId !== 'number' && isNaN(postId)) {
+        throw new CustomError(400, "Invalid postId")
+    }
+
+    if (typeof published !== 'boolean') {
+        throw new CustomError(400, "Invalid published value")
+    }
+
+
+    await (published
+        ? postsModel.publishPost(Number(postId))
+        : postsModel.unpublishPost(Number(postId)))
+
+
+    const response = new CustomResponse(true, 'Update post successfully', {})
+    return res.status(200).json(response)
+}
+
 module.exports = {
     getAllPosts,
     getPostWithComments,
     createPost,
-    createComment
+    createComment,
+    changePublishedState
 }

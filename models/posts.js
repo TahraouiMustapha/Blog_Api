@@ -60,11 +60,36 @@ const createComment = function ({
     })
 }
 
+const publishPost = function (postId) {
+    return prisma.post.update({
+        where: {
+            postId
+        },
+        data: {
+            published: true
+        }
+    })
+}
+
+const unpublishPost = function (postId) {
+    return prisma.post.update({
+        where: {
+            postId
+        },
+        data: {
+            published: false
+        }
+    })
+}
+
+
 module.exports = {
     getAllPosts,
     getPostWithComments,
     createPost,
-    createComment
+    createComment,
+    publishPost,
+    unpublishPost
 }
 
 

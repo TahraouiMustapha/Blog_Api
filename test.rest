@@ -48,6 +48,16 @@ Content-Type: application/json
     "password": "blogAdmin"
 }
 
+###
+// PATCH /api/admin/posts/:postId publish and unpublish post
+PATCH http://localhost:3000/api/admin/posts/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo3LCJ1c2VybmFtZSI6Im11c3RhcGhhQGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiJ9LCJpYXQiOjE3NjY4Mzk3ODh9.few50pGXZ9B7Hva4LQCPg6L4Q6elzCOX9UGTfVtRqnE
+Content-Type: application/json
+
+{
+    "published": true
+}
+
 // POST "/api/posts" admin create a post
 ###
 POST http://localhost:3000/api/posts
