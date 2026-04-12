@@ -49,6 +49,15 @@ server.use((err, req, res, next) => {
 
     // handle prisma errors
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        if (err.code == 'P2025') {
+            const errResponse = new CustomResponse(
+                false,
+                "Required record(s) not found",
+                { error: "One or more required records do not exist" }
+            );
+            return res.status(409).json(errResponse)
+        }
+
         if (err.code) {
             const errResponse = new CustomResponse(false, "Unique constraint error", { error: "Email already exist!" })
             return res.status(409).json(errResponse)
