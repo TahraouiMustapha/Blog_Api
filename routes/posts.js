@@ -13,6 +13,7 @@ const postsController = require('../controllers/posts')
 // GET "/api/posts"
 postsRouter.get('/', postsController.getAllPosts)
 
+// admin
 // POST "api/posts"
 postsRouter.post('/',
     authController.verifyAuth,
@@ -30,6 +31,15 @@ postsRouter.post('/:postId/comments',
     authController.verifyAuth,
     postsController.createComment
 )
+
+// admin 
+// DELETE /api/posts/:postId/comments/:commentId
+postsRouter.delete('/:postId/comments/:commentId',
+    authController.verifyAuth,
+    authController.isAdmin,
+    postsController.deleteComment
+)
+
 
 
 

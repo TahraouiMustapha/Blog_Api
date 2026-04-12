@@ -90,6 +90,14 @@ const unpublishPost = function (postId) {
     })
 }
 
+const deleteComment = function (commentId) {
+    return prisma.comment.delete({
+        where: {
+            commentId
+        },
+    });
+}
+
 
 module.exports = {
     getAllPosts,
@@ -98,7 +106,8 @@ module.exports = {
     createPost,
     createComment,
     publishPost,
-    unpublishPost
+    unpublishPost,
+    deleteComment
 }
 
 

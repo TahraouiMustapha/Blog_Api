@@ -17,9 +17,6 @@ adminRouter.post('/auth',
     authController.authenticate('Admin')
 )
 
-// POST /api/admin/posts
-// create a post
-
 // PATCH /api/admin/posts/:postId
 // publish and unpublish (posts)
 adminRouter.patch('/posts/:postId',
@@ -27,9 +24,6 @@ adminRouter.patch('/posts/:postId',
     authController.isAdmin,
     postContorller.changePublishedState
 )
-
-// DELETE /api/admin/comments/:commentId
-// delete comment
 
 
 

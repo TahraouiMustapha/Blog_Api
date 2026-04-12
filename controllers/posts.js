@@ -20,9 +20,9 @@ const getAllPosts = async (req, res) => {
 }
 
 const getPostWithComments = async (req, res) => {
-    const { postId } = req.params
+    const postId = Number(req.params.postId)
 
-    if (typeof postId !== 'number' && isNaN(postId)) {
+    if (isNaN(postId)) {
         throw new CustomError(400, "Invalid postId")
     }
 
@@ -86,10 +86,10 @@ const createComment = async (req, res, next) => {
 }
 
 const changePublishedState = async (req, res) => {
-    const { postId } = req.params
+    const postId = Number(req.params.postId)
     const { published } = req.body
 
-    if (typeof postId !== 'number' && isNaN(postId)) {
+    if (isNaN(postId)) {
         throw new CustomError(400, "Invalid postId")
     }
 
@@ -107,10 +107,26 @@ const changePublishedState = async (req, res) => {
     return res.status(200).json(response)
 }
 
+// DELETE /api/posts/:postId/comments/:commentId
+const deleteComment = async (req, res) => {
+    const commentId = Number(req.params.commentId)
+
+    if (isNaN(commentId)) {
+        throw new CustomError(400, "Invalid commentId")
+    }
+
+
+    await postsModel.deleteComment(commentId)
+
+    const response = new CustomResponse(true, 'Delete comment successfully', {})
+    return res.status(200).json(response)
+}
+
 module.exports = {
     getAllPosts,
     getPostWithComments,
     createPost,
     createComment,
-    changePublishedState
+    changePublishedState,
+    deleteComment
 }

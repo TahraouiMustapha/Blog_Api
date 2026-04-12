@@ -44,7 +44,7 @@ Content-Type: application/json
    "text" : "comment 1"   
 }
 ###
-// -- admin routes --
+// -- admin --
 POST http://localhost:3000/api/admin/auth
 Content-Type: application/json
 
@@ -97,6 +97,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2L
 
 ###
 POST http://localhost:3000/api/auth/refresh
+
+### 
+DELETE http://localhost:3000/api/posts/2/comments/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo3LCJ1c2VybmFtZSI6Im11c3RhcGhhQGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiJ9LCJpYXQiOjE3NjY4Mzk3ODh9.few50pGXZ9B7Hva4LQCPg6L4Q6elzCOX9UGTfVtRqnE
+ 
 
 
 
