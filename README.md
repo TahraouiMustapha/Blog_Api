@@ -51,6 +51,3 @@ This project focuses on building a complete backend system with authentication, 
 - `PATCH /api/admin/posts/:postId` → Publish / unpublish  
 - `DELETE /api/posts/:postId/comments/:commentId` → Delete comment  
 
-
-## Acknowledgments
-I would like to extend my heartfelt thanks to augustynd02 for their inspiring work
