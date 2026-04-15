@@ -1,4 +1,6 @@
 const postsModel = require('../models/posts')
+const usersModel = require('../models/users')
+
 const CustomError = require('../errors/CustomError')
 const CustomResponse = require('../utils/customResponse')
 
@@ -39,17 +41,27 @@ const getPostWithComments = async (req, res) => {
 
 const createPost = async (req, res) => {
     const { title, date, published, text } = req.body
-    const { id } = req.user
+    const { username } = req.user
     const file = req.file;
+
+    if (!file) {
+        throw new CustomError(400, 'No file uploaded')
+    }
 
     const result = await uploadToCloudinary(file.buffer)
 
+    const admin = await usersModel.getUserByUsername(username)
+
+    if (!admin) {
+        throw new CustomError(400, 'no user found (admin)')
+    }
+
     let post = {
         title,
-        published,
+        published: published === "true",
         text,
         thumbnailUrl: result.secure_url,
-        authorId: Number(id)
+        authorId: admin.userId
     }
 
     if (date) post = { ...post, date }

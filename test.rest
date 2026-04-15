@@ -1,4 +1,26 @@
-// --users--
+# ----users----
+# POST   /api/users  =>  sing up 
+# POST   /api/users/me  => get user info
+
+
+#---- auth ----
+# POST   /api/auth/profile
+# POST   /api/auth/logout
+# POST   /api/auth/refresh
+
+# ---- admin ----
+# POST   /api/admin/auth
+# GET    /api/admin/posts
+# POST   /api/posts
+# PATCH  /api/admin/posts/:postId
+# DELETE /api/posts/:postId/comments/:commentId
+
+# ---- posts ----
+# GET    /api/posts
+# GET    /api/posts/:postId
+# POST   /api/posts/:postId/comments
+
+
 // POST  "/api/users" sign up
 POST http://localhost:3000/api/users
 Content-Type: application/json
