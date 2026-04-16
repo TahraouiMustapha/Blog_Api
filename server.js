@@ -15,6 +15,7 @@ server.use(cookieParser());
 const corsOptions = {
     origin: [
         'https://blog-musta.netlify.app',
+        'https://blogtopadmin.netlify.app',
         'http://localhost:5173'
     ],
     optionsSuccessStatus: 200,
