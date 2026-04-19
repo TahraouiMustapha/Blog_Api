@@ -7,6 +7,14 @@ const CustomResponse = require('../utils/customResponse')
 // cloudinary service 
 const { uploadToCloudinary } = require('../services/cloudinary.service')
 
+// Sanitize text input to remove unsafe content while preserving valid HTML and spacing
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+
+
 const getAllPosts = async (req, res) => {
 
     let posts;
@@ -44,6 +52,7 @@ const createPost = async (req, res) => {
     const { username } = req.user
     const file = req.file;
 
+
     if (!file) {
         throw new CustomError(400, 'No file uploaded')
     }
@@ -56,10 +65,12 @@ const createPost = async (req, res) => {
         throw new CustomError(400, 'no user found (admin)')
     }
 
+    const safeText = DOMPurify.sanitize(text)
+
     let post = {
         title,
         published: published === "true",
-        text,
+        text: safeText,
         thumbnailUrl: result.secure_url,
         authorId: admin.userId
     }
